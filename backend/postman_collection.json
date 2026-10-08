@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "Factory Traffic Management API",
+    "_postman_id": "c9a4b2a8-1234-5678-90ab-cdef12345678",
+    "description": "API collection for CSI Smart Tech Factory Traffic Management System V2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. List Junctions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/junctions", "host": ["{{baseUrl}}"], "path": ["api", "junctions"] }
+      }
+    },
+    {
+      "name": "2. Get Junction Detail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/junctions/A", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A"] }
+      }
+    },
+    {
+      "name": "3. Create Junction",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"C\",\n  \"name\": \"Junction C - Finishing Mill\",\n  \"yellow_duration_sec\": 3,\n  \"all_red_duration_sec\": 2,\n  \"min_green_sec\": 10,\n  \"max_green_sec\": 50\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/junctions", "host": ["{{baseUrl}}"], "path": ["api", "junctions"] }
+      }
+    },
+    {
+      "name": "4. Get Junction Real-time Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/junctions/A/status", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A", "status"] }
+      }
+    },
+    {
+      "name": "5. Vehicle Arrival (Sensor Event)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"EVT-101\",\n  \"junction_id\": \"A\",\n  \"direction\": \"NORTH\",\n  \"event_type\": \"VEHICLE_ARRIVED\",\n  \"vehicle_type\": \"TRUCK\",\n  \"vehicle_id\": \"TRK-01\",\n  \"sequence_no\": 1,\n  \"timestamp\": \"2026-10-08T10:00:00Z\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/sensor-events", "host": ["{{baseUrl}}"], "path": ["api", "sensor-events"] }
+      }
+    },
+    {
+      "name": "6. Vehicle Cleared (Sensor Event)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"EVT-102\",\n  \"junction_id\": \"A\",\n  \"direction\": \"NORTH\",\n  \"event_type\": \"VEHICLE_CLEARED\",\n  \"vehicle_id\": \"TRK-01\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/sensor-events", "host": ["{{baseUrl}}"], "path": ["api", "sensor-events"] }
+      }
+    },
+    {
+      "name": "7. Manual Green Request",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"MANUAL_GREEN_REQUEST\",\n  \"direction\": \"EAST\",\n  \"admin_id\": \"operator_1\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/junctions/A/commands", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A", "commands"] }
+      }
+    },
+    {
+      "name": "8. Return to Automatic Mode",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"RETURN_TO_AUTOMATIC\",\n  \"admin_id\": \"operator_1\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/junctions/A/commands", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A", "commands"] }
+      }
+    },
+    {
+      "name": "9. Controller Acknowledgement (ACK)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"junction_id\": \"A\",\n  \"command_id\": \"CMD-A-101\",\n  \"status\": \"ACK\",\n  \"actual_state\": \"GREEN\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/controller-events", "host": ["{{baseUrl}}"], "path": ["api", "controller-events"] }
+      }
+    },
+    {
+      "name": "10. Query Audit History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/junctions/A/history?limit=50", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A", "history"], "query": [{ "key": "limit", "value": "50" }] }
+      }
+    },
+    {
+      "name": "11. Advance Timing Tick (Deterministic Reconciliation)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/junctions/A/tick", "host": ["{{baseUrl}}"], "path": ["api", "junctions", "A", "tick"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" }
+  ]
+}
